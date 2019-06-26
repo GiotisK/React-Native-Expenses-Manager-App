@@ -1,10 +1,8 @@
 import React from 'react';
-import { Text, View, Picker} from 'react-native';
+import { Text, View} from 'react-native';
 import Icon from 'react-native-ionicons';
 import { PieChart, LineChart } from 'react-native-chart-kit'
 import AsyncStorage from '@react-native-community/async-storage';
-import MonthPicker from './MonthPicker';
-import YearPicker from './YearPicker';
 import { ScrollView } from 'react-native-gesture-handler';
 import MonthYearHeader from './MonthYearHeader'
 
@@ -54,19 +52,12 @@ const data2 = {
   }]
 }
 
-
-
-
-
-
 class GraphsScreen extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
       label:'Month',
-      //month:'',
-      //year:'',
       totalIncome: 0,
       totalOutcome: 0,
       totalSavings: 0,
@@ -82,16 +73,8 @@ class GraphsScreen extends React.Component {
 
   componentDidMount(){
     this._navListener = this.props.navigation.addListener('didFocus', () => {
-     // var month = new Date().getMonth() + 1;
-     // var year = new Date().getFullYear()
       month = months[new Date().getMonth() + 1];
       year = new Date().getFullYear()
-     /* this.setState({
-        month: months[month],
-        year
-      },()=>{
-        this.getMonthValuesFromAsyncStorage()
-      })*/
       this.getMonthValuesFromAsyncStorage()
     });
   }
@@ -249,23 +232,6 @@ class GraphsScreen extends React.Component {
           yearSelectedValue = {year}
           yearOnValueChange ={(itemValue, itemIndex)=>{year=itemValue; this.getMonthValuesFromAsyncStorage()}}
         />
-       {/* <View style = {{flexDirection: 'row',justifyContent:'space-around', borderBottomWidth:0.5,}}>
-          
-          <View style = {{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-            <Text style = {styles.MonthYearTextStyle}>Month:</Text>
-              <MonthPicker 
-                selectedValue={month}
-                onValueChange={(itemValue, itemIndex)=>{month=itemValue; this.getMonthValuesFromAsyncStorage()}}
-              />
-          </View>
-          <View style = {{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-            <Text style = {styles.MonthYearTextStyle}>Year:</Text>
-            <YearPicker 
-              selectedValue={year}
-              onValueChange={(itemValue, itemIndex)=>{year=itemValue; this.getMonthValuesFromAsyncStorage()}}
-            />
-          </View>
-      </View>*/}
       <ScrollView>
         <View style = {styles.ViewStyle}>
         <View style = {{backgroundColor:'white', borderRadius:10, borderWidth:0.5, borderColor:'gray', margin: 5,marginTop:10, elevation: 4,flexDirection:'column'}}>

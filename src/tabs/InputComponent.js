@@ -1,6 +1,5 @@
 import React from 'react';
-import {TextInput, Text,View, TouchableOpacity, Picker } from 'react-native';
-import Icon from 'react-native-ionicons'
+import {TextInput, View, Picker } from 'react-native';
 import IconButton from './IconButton'
 
 
@@ -9,7 +8,6 @@ import IconButton from './IconButton'
 class InputComponent extends React.Component{
 
     render(){
-        //const {navigate} = this.props.navigation;
         const picker = <Picker
         selectedValue={this.props.selectedValue}
         mode='dropdown'
@@ -36,8 +34,7 @@ class InputComponent extends React.Component{
                         placeholderTextColor='rgba(255,255,255, 0.5)' 
                         value={this.props.descriptionValue}
                         underlineColorAndroid='white'  
-                        maxLength={18}                        
-                        //autoCapitalize={'sentences'}
+                        maxLength={18}
                     />
                     <TextInput 
                         onSubmitEditing={this.props.onSubmitEditingAmount}

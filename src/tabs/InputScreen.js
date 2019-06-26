@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text,View, TouchableOpacity, Button, Dimensions} from 'react-native';
+import { Text,View, TouchableOpacity, Button} from 'react-native';
 import Modal from "react-native-modal";
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-ionicons'
@@ -936,27 +936,7 @@ class InputScreen extends React.Component {
               <Text style={{fontSize:16,fontWeight:'bold',marginTop:2.5}}>({this.state.numOfPhotos})</Text>
             </TouchableOpacity>
           </View>
-        </View>
-          
-        {/*<TouchableOpacity style={{alignSelf:'flex-end'}} onPress={this._getData}>
-                <Icon 
-                  name='camera' color='blue' size={20}
-                />
-        </TouchableOpacity>
-        <TouchableOpacity style={{alignSelf:'flex-end'}} onPress={this.removeValue}>
-                <Icon 
-                  name='camera' color='green' size={20}
-                />
-        </TouchableOpacity>
-        <TouchableOpacity style={{alignSelf:'flex-end'}} onPress={this.testRow}>
-                <Icon 
-                  name='camera' color='purple' size={20}
-                />
-        </TouchableOpacity>*/}
-          
-
-        {/*<Image source={{uri:{tomdimas}}} style={{height:200, width:200}}/>*/}
-        
+        </View>        
       </View>       
     )        
   } 

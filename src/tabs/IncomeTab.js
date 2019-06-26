@@ -219,7 +219,6 @@ class IncomeTab extends React.Component {
                   borderColor:'gray'
                 }}>
                 <TouchableOpacity
-                   // style={styles.button}
                   onPress={()=>{
                     rightTextSize = 18;
                     leftTextSize = 16; 
@@ -239,7 +238,6 @@ class IncomeTab extends React.Component {
         <View style={{justifyContent:'center', alignItems:'center'}} onLayout={()=>{this.updateColumns();}}>
           
             <Table 
-            //height={this.state.data.length*25+50} 
             columns={columns} 
             dataSource={this.state.data}        
             />
@@ -270,8 +268,6 @@ const styles = {
         alignItems:'center',
         padding:10,
         borderBottomWidth:0.5
-        //borderWidth:0.5, 
-        //borderRadius:8
       }
   }
 

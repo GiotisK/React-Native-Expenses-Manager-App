@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, Text,View, TouchableOpacity, Picker } from 'react-native';
+import {View, Picker } from 'react-native';
 
 
 class MonthPicker extends React.Component{

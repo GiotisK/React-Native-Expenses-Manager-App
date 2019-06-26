@@ -16,9 +16,6 @@ let numOfPhotos = 0
 class CameraScreen extends React.Component {  
   constructor(props){
     super(props)
-    /*this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-    );*/
     this.state ={
       flag: true,
       flashMode_: RNCamera.Constants.FlashMode.on,
@@ -145,20 +142,17 @@ class CameraScreen extends React.Component {
     if (this.camera) {
       const options = { quality: 0.5, base64: false, fixOrientation:true  };
       const data = await this.camera.takePictureAsync(options)
-      //CameraRoll.saveToCameraRoll(data.uri) 
+
       let uriArray= data.uri.split("/");
       let nameToChange = uriArray[uriArray.length - 1]
-      //let renamedUri = data.uri.replace( nameToChange, "app_photo.jpg");
-      
-      //RNFS.moveFile(data.uri, renamedUri)
-      //.then(() => {
+
         CameraRoll.saveToCameraRoll(data.uri).then(()=>{
           RNFS.unlink(data.uri)
         });
         this.pushPhotoToAsyncStorage(testpath+""+nameToChange)
         console.log('file copied!');
       
-      //})
+
       /*
       ==TEST READING PHOTOS==
       const photoz=CameraRoll.getPhotos({
