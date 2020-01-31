@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, Text,View, TouchableOpacity, Picker } from 'react-native';
+import {View, Picker } from 'react-native';
 
 
 class MonthPicker extends React.Component{
@@ -10,21 +10,21 @@ class MonthPicker extends React.Component{
                 <Picker
                         selectedValue={this.props.selectedValue}
                         mode='dropdown'
-                        style={{height: 50, width: 120, marginTop:3, color:'black'}}
+                        style={{height: 50, width: 150, marginTop:3, color:"#3949ab"}}
                         onValueChange={this.props.onValueChange}>
                         <Picker.Item label="All Months" value="All Months" />
-                        <Picker.Item label="Jan." value="January" />
-                        <Picker.Item label="Feb." value="February" />
-                        <Picker.Item label="Mar." value="March" />
-                        <Picker.Item label="Apr." value="April" />
+                        <Picker.Item label="January" value="Jan." />
+                        <Picker.Item label="February" value="Febr." />
+                        <Picker.Item label="March" value="March" />
+                        <Picker.Item label="April" value="April" />
                         <Picker.Item label="May" value="May" />
                         <Picker.Item label="June" value="June" />
                         <Picker.Item label="July" value="July"/>
-                        <Picker.Item label="Aug." value="August"/>
-                        <Picker.Item label="Sept." value="September"/>
-                        <Picker.Item label="Oct." value="October"/>
-                        <Picker.Item label="Nov." value="Novemeber"/>
-                        <Picker.Item label="Dec." value="December"/>
+                        <Picker.Item label="August" value="Aug."/>
+                        <Picker.Item label="September" value="Sep."/>
+                        <Picker.Item label="October" value="Oct."/>
+                        <Picker.Item label="November" value="Nov."/>
+                        <Picker.Item label="December" value="Dec."/>
 
                 </Picker>
             </View>

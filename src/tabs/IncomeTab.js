@@ -50,16 +50,15 @@ let rightOpacity
 let leftOpacity
 let month
 let year
+let allMonthsIncome = 0
+let allMonthsOutcome = 0
 
 class IncomeTab extends React.Component {
 
   constructor(){
     super();
     this.state ={
-      
         data: [],
-        orientationChange: true,
-        totalIncome: 0
     }
   }
 
@@ -103,10 +102,12 @@ class IncomeTab extends React.Component {
         }
       }
     }
-    if (totalOutcome>0){
+    allMonthsIncome += totalIncome
+    allMonthsOutcome += totalOutcome
+    if (totalOutcome>0 && month!=='All Months'){
       outcomeArr.push({description: "Total Amount", category: " ", amount: totalOutcome})
     }
-    if(totalIncome>0){
+    if(totalIncome>0 && month!=='All Months'){
       incomeArr.push({description: "Total Amount", amount: totalIncome})
     }
   }
@@ -120,18 +121,23 @@ class IncomeTab extends React.Component {
       outcomeArr = []
       let totalIncome = 0
       let totalOutcome = 0
+      allMonthsIncome = 0
+      allMonthsOutcome = 0
 
       if(month!='All Months'){
         this.fillArrays(month,value,totalIncome, totalOutcome)
       }else{
         const monthKeys = Object.keys(value)
+
         for(const monthKey of monthKeys){
           if(monthKey!='yearIncome' && monthKey!='yearOutcome' && monthKey!='yearFood' && monthKey!='yearEntertainment' 
           && monthKey!='yearShopping' && monthKey!='yearBills' && monthKey!='yearHealth' && monthKey!='yearOther'){
-            console.log(monthKey)
+            //console.log(monthKey)
             this.fillArrays(monthKey,value,totalIncome, totalOutcome)
           }
         }
+        outcomeArr.push({description: "Total Amount", category: " ", amount: allMonthsOutcome})
+        incomeArr.push({description: "Total Amount", amount: allMonthsIncome})
       }
       
       leftTextSize = 18
@@ -143,34 +149,17 @@ class IncomeTab extends React.Component {
 
       this.setState({
           data: incomeArr,
-          totalIncome,
-          totalOutcome
+
       })
     }catch(error){//in case there are no values for a specific month/year in async storage
       this.setState({
         data: [],
-        totalIncome: 0,
-        totalOutcome: 0
     })
     }
   }
 
-  updateColumns(){
-    width=Dimensions.get('window').width;
-    for(var i=0; i<columns.length; i++ ){
-      if(Object.keys(columns).length==2){
-        columns[i].width = width/2
-      }else{
-        columns[i].width = width/3
-      }
-    }
-  
-    this.setState({orientationChange: !this.orientationChange})
- 
-  }
 
   render() {
-    console.log("hello")
     const notEnoughData = <Text style={{fontSize:15,marginTop:20,marginBottom:20}}>There is not enough data to display a table!</Text>
     return (
       <View>
@@ -219,7 +208,6 @@ class IncomeTab extends React.Component {
                   borderColor:'gray'
                 }}>
                 <TouchableOpacity
-                   // style={styles.button}
                   onPress={()=>{
                     rightTextSize = 18;
                     leftTextSize = 16; 
@@ -236,12 +224,11 @@ class IncomeTab extends React.Component {
 
         </View>
 
-        <View style={{justifyContent:'center', alignItems:'center'}} onLayout={()=>{this.updateColumns();}}>
+        <View style={{justifyContent:'center', alignItems:'center'}} >
           
             <Table 
-            //height={this.state.data.length*25+50} 
-            columns={columns} 
-            dataSource={this.state.data}        
+                columns={columns} 
+                dataSource={this.state.data}        
             />
             {this.state.data.length==0 ? notEnoughData : null}
         </View> 
@@ -270,8 +257,6 @@ const styles = {
         alignItems:'center',
         padding:10,
         borderBottomWidth:0.5
-        //borderWidth:0.5, 
-        //borderRadius:8
       }
   }
 

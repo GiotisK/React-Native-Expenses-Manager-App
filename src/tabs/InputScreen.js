@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text,View, TouchableOpacity, Button, Dimensions} from 'react-native';
+import { Text,View, TouchableOpacity, Button} from 'react-native';
 import Modal from "react-native-modal";
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-ionicons'
@@ -88,7 +88,7 @@ class InputScreen extends React.Component {
       let num = this.props.navigation.getParam('num')
     
       if(typeof num!='undefined'){
-        console.log("its ok")
+        //console.log("its ok")
         this.setState({
           numOfPhotos: this.state.numOfPhotos+num
         })
@@ -115,7 +115,7 @@ class InputScreen extends React.Component {
         outcome: _outcome
       })
     }catch(error){
-      console.log("getIncomeOutcomeFromAsyncStorage: error")
+      //console.log("getIncomeOutcomeFromAsyncStorage: error")
     }
   }
  
@@ -259,10 +259,10 @@ class InputScreen extends React.Component {
       value['yearIncome']+=amount
       value[month]['monthIncome']+=amount
       value[month][day.toString()]['dayIncome']+=amount
-      console.log(value)
+      //console.log(value)
       await AsyncStorage.setItem( year.toString(), JSON.stringify(value));
     }catch(error){
-      console.log("PushIncomeToAsyncStorage: error")
+      //console.log("PushIncomeToAsyncStorage: error")
     }
   }
 
@@ -275,7 +275,7 @@ class InputScreen extends React.Component {
       value[month][day.toString()]['dayOutcome']+=amount
       await AsyncStorage.setItem( year.toString(), JSON.stringify(value));
     }catch(error){
-      console.log("PushOutcomeToAsyncStorage: error")
+      //console.log("PushOutcomeToAsyncStorage: error")
     }
   }
 
@@ -334,15 +334,15 @@ class InputScreen extends React.Component {
       let asyncStorageRows= await AsyncStorage.getItem(year.toString())
       asyncStorageRows = JSON.parse(asyncStorageRows)
       asyncStorageRows = asyncStorageRows[month][day.toString()]['rows']
-      console.log(asyncStorageRows)
+      //console.log(asyncStorageRows)
       this.setState({
         valueArray: asyncStorageRows
       })
 
-      console.log(this.state.valueArray)
+      //console.log(this.state.valueArray)
       
     } catch{
-      console.debug("getAsyncStorageRows:Error")
+      //console.debug("getAsyncStorageRows:Error")
     } 
   }
 
@@ -352,7 +352,7 @@ class InputScreen extends React.Component {
     try{
        value = await AsyncStorage.getItem(year.toString())
     }catch(error){
-      console.log("createMarksInDays: get Year: error")
+      //console.log("createMarksInDays: get Year: error")
     }
     try{
       markedDays = await AsyncStorage.getItem('markedDays')
@@ -362,7 +362,7 @@ class InputScreen extends React.Component {
         markedDays = JSON.parse(markedDays)
       }
     }catch(error){
-      console.log("createMarksInDays: get markedDays: error")
+      //console.log("createMarksInDays: get markedDays: error")
     }
     
     value = JSON.parse(value)
@@ -489,7 +489,7 @@ class InputScreen extends React.Component {
         storedPhotos = value[month][day.toString()]['photos']
         this.setState({slideshowEnabled:true,photos:storedPhotos})
       }catch(error){
-        console.log("getphotos: error")
+        //console.log("getphotos: error")
       }
     }else{
       this.setState({
@@ -508,7 +508,7 @@ class InputScreen extends React.Component {
       this.setState({numOfPhotos:storedPhotos.length})
       
     }catch(error){
-      console.log("getnumofphotos: error")
+      //console.log("getnumofphotos: error")
     }
   }
 
@@ -575,7 +575,7 @@ class InputScreen extends React.Component {
           value[month][day.toString()]['index'] =  value[month][day.toString()]['index'] +1
           await AsyncStorage.setItem( year.toString(), JSON.stringify( value ) );
         }
-        console.log(value)
+        //console.log(value)
         
       }else{ //add year
         const objlit = {
@@ -619,12 +619,12 @@ class InputScreen extends React.Component {
           objlit[month][day.toString()]['index'] =  objlit[month][day.toString()]['index'] +1
           await AsyncStorage.setItem(year.toString(), JSON.stringify(objlit));
         } catch (error) {
-          console.log('Error saving data'); 
+          //console.log('Error saving data'); 
         }
       }
       let tempDefaultValues=[];
     } catch (error) {
-      console.log('Error retrieving data'); 
+      //console.log('Error retrieving data'); 
     }
   }
 
@@ -633,9 +633,9 @@ class InputScreen extends React.Component {
     try {
       await AsyncStorage.setItem('kys', 'eleos');
     } catch (error) {
-      console.log('Error saving data'); 
+     // console.log('Error saving data'); 
     }
-    console.log('item set done')
+    //console.log('item set done')
   };
   //debugging function
   _getData = async () => {
@@ -643,13 +643,13 @@ class InputScreen extends React.Component {
       let value = await AsyncStorage.getItem(year.toString());
       if (value !== null) {
         // We have data!!
-        console.log("we have data!")
-        console.log(value);
+        //console.log("we have data!")
+        //console.log(value);
       }else{
-        console.log('this key doesnt exist')
+        //console.log('this key doesnt exist')
       }
     } catch (error) {
-      console.log('Error retrieving data'); 
+      //console.log('Error retrieving data'); 
     }
   };
   //debugging function
@@ -660,7 +660,7 @@ class InputScreen extends React.Component {
     } catch(e) {
       // remove error
     } 
-    console.log('Done.')
+    //console.log('Done.')
   }
 //debugging function: pushes a "row" in the asyncstorage
   testRow = async () =>{
@@ -670,7 +670,7 @@ class InputScreen extends React.Component {
       value[month][day.toString()]['rows'].push({ index: 16, isIncome:true })
       value[month][day.toString()]['rows'].push({ index: 15, isIncome:false })  
       await AsyncStorage.setItem(year.toString(), JSON.stringify(value))
-      console.log(value[month][day.toString()]['rows'])
+      //console.log(value[month][day.toString()]['rows'])
     } catch(e) {
       // remove error
     }
@@ -703,7 +703,7 @@ class InputScreen extends React.Component {
       value = JSON.parse(value)
 
      for(var i=0 ; i<value[month][day.toString()]['photos'].length ; i++){
-        console.log("val: ",value[month][day.toString()]['photos'][i],"delet: ",photoForDelete)
+        //console.log("val: ",value[month][day.toString()]['photos'][i],"delet: ",photoForDelete)
         if(value[month][day.toString()]['photos'][i].url===photoForDelete.url){
           value[month][day.toString()]['photos'].splice(i,1);
           i--;
@@ -718,7 +718,7 @@ class InputScreen extends React.Component {
 
       this.setState({photos:photoz, numOfPhotos:photoz.length, modalVisible:false})
     }catch(error){
-     console.log("deletePhotoFromAsyncStorage: error")
+     //console.log("deletePhotoFromAsyncStorage: error")
     }
   }
 
@@ -750,8 +750,8 @@ class InputScreen extends React.Component {
         return(
           <InputComponent
             key={item.index} 
-            onSubmitEditingDescription={()=>{console.log(this.state.description)}}
-            onSubmitEditingAmount={()=>{console.log(this.state.amount)}}
+          /*   onSubmitEditingDescription={()=>{console.log(this.state.description)}}
+            onSubmitEditingAmount={()=>{console.log(this.state.amount)}} */
 
             onChangeTextDescription={(text) => 
               {
@@ -936,27 +936,7 @@ class InputScreen extends React.Component {
               <Text style={{fontSize:16,fontWeight:'bold',marginTop:2.5}}>({this.state.numOfPhotos})</Text>
             </TouchableOpacity>
           </View>
-        </View>
-          
-        {/*<TouchableOpacity style={{alignSelf:'flex-end'}} onPress={this._getData}>
-                <Icon 
-                  name='camera' color='blue' size={20}
-                />
-        </TouchableOpacity>
-        <TouchableOpacity style={{alignSelf:'flex-end'}} onPress={this.removeValue}>
-                <Icon 
-                  name='camera' color='green' size={20}
-                />
-        </TouchableOpacity>
-        <TouchableOpacity style={{alignSelf:'flex-end'}} onPress={this.testRow}>
-                <Icon 
-                  name='camera' color='purple' size={20}
-                />
-        </TouchableOpacity>*/}
-          
-
-        {/*<Image source={{uri:{tomdimas}}} style={{height:200, width:200}}/>*/}
-        
+        </View>        
       </View>       
     )        
   } 

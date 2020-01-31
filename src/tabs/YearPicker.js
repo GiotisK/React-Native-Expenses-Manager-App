@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, Text, View, TouchableOpacity, Picker } from 'react-native';
+import {View,  Picker } from 'react-native';
 
 
 class YearPicker extends React.Component{
@@ -10,7 +10,7 @@ class YearPicker extends React.Component{
                 <Picker
                         selectedValue={this.props.selectedValue}
                         mode='dropdown'
-                        style={{height: 50, width: 80, marginTop:3, color:'black'}}
+                        style={{height: 50, width: 120, marginTop:3, color:"#3949ab"}}
                         onValueChange={this.props.onValueChange}>
                         <Picker.Item label="2019" value={2019} />
                         <Picker.Item label="2020" value={2020} />

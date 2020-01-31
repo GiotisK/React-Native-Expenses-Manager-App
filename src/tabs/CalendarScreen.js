@@ -1,16 +1,7 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 import Icon from 'react-native-ionicons';
 import { CalendarList, Calendar } from 'react-native-calendars';
 import AsyncStorage from '@react-native-community/async-storage';
-
-
-
-//import InputScreen from './src/tabs/InputScreen'
-
-
-
-//let markedDays={} 
 
 class CalendarScreen extends React.Component {
   constructor(props) {
@@ -45,7 +36,7 @@ class CalendarScreen extends React.Component {
       }
       
     }catch(error){
-     console.log("getMarkedDays:  error")
+     //console.log("getMarkedDays:  error")
     }
   }
 
@@ -68,8 +59,7 @@ class CalendarScreen extends React.Component {
     const {navigate} = this.props.navigation;
     return (   
       <CalendarList
-        //onDayPress={this.onDaySelect}
-        
+
         onDayPress={(day) => {navigate('Second',{day: day})}}
         markingType={'multi-dot'}
         markedDates={this.state.markedDays}

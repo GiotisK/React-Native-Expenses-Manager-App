@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet,Text,View, TouchableOpacity, CameraRoll, BackHandler } from 'react-native';
+import { StyleSheet, View, PermissionsAndroid, CameraRoll, BackHandler } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import IconButton from './IconButton'
 import Icon from 'react-native-ionicons';
@@ -16,9 +16,6 @@ let numOfPhotos = 0
 class CameraScreen extends React.Component {  
   constructor(props){
     super(props)
-    /*this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-    );*/
     this.state ={
       flag: true,
       flashMode_: RNCamera.Constants.FlashMode.on,
@@ -53,7 +50,7 @@ class CameraScreen extends React.Component {
     }
   }
 
-  componentDidUnmount(){
+  componentWillUnmount(){
     BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
   }
 
@@ -70,13 +67,13 @@ class CameraScreen extends React.Component {
       value[month][day.toString()]['photos'].push({url: photoUri})
       await AsyncStorage.setItem( year.toString(), JSON.stringify(value));
     }catch(error){
-      console.log("pushPhotoToAsyncStorage: error")
+      //console.log("pushPhotoToAsyncStorage: error")
     }
   }
 
   onBackButtonPressAndroid = () => {
     let num = numOfPhotos
-    console.log("numof",numOfPhotos)
+    //console.log("numof",numOfPhotos)
     this.props.navigation.navigate(
       'Second',
       { num },
@@ -95,10 +92,11 @@ class CameraScreen extends React.Component {
           orientation='portrait'
           type={RNCamera.Constants.Type.back}
           flashMode={this.state.flashMode_}
+          captureAudio = {false}
           permissionDialogTitle={'Permission to use camera'}
           permissionDialogMessage={'We need your permission to use your phone camera '}
           onGoogleVisionBarcodesDetected={({ barcodes }) => {
-            console.log(barcodes);
+            //console.log(barcodes);
           }}
         />
         <View style={{ flex: 0,flexDirection:'row',justifyContent:'space-between'}}>
@@ -138,27 +136,59 @@ class CameraScreen extends React.Component {
       </View>
     )
   }
+
+
+  /* requestCameraPermission = async function () {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Cool Photo App Camera Permission',
+          message:
+            'Cool Photo App needs access to your camera ' +
+            'so you can take awesome pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the camera');
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  } */
+
   takePicture = async function() {
     numOfPhotos+=1
     var RNFS = require('react-native-fs');
     let testpath = 'file://'+RNFS.ExternalStorageDirectoryPath+'/DCIM/'
     if (this.camera) {
       const options = { quality: 0.5, base64: false, fixOrientation:true  };
-      const data = await this.camera.takePictureAsync(options)
-      //CameraRoll.saveToCameraRoll(data.uri) 
-      let uriArray= data.uri.split("/");
-      let nameToChange = uriArray[uriArray.length - 1]
-      //let renamedUri = data.uri.replace( nameToChange, "app_photo.jpg");
+
+      try {
+
+        const writePermission = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
+        if ( writePermission === PermissionsAndroid.RESULTS.GRANTED) {
+          const data = await this.camera.takePictureAsync(options)
+
+            let uriArray= data.uri.split("/");
+            let nameToChange = uriArray[uriArray.length - 1]
+
+            CameraRoll.saveToCameraRoll(data.uri).then(()=>{
+                RNFS.unlink(data.uri)
+            });
+            this.pushPhotoToAsyncStorage(testpath+""+nameToChange)
+        } else {
+          console.log('Camera permission denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
       
-      //RNFS.moveFile(data.uri, renamedUri)
-      //.then(() => {
-        CameraRoll.saveToCameraRoll(data.uri).then(()=>{
-          RNFS.unlink(data.uri)
-        });
-        this.pushPhotoToAsyncStorage(testpath+""+nameToChange)
-        console.log('file copied!');
-      
-      //})
       /*
       ==TEST READING PHOTOS==
       const photoz=CameraRoll.getPhotos({
@@ -186,6 +216,8 @@ class CameraScreen extends React.Component {
 
     }
   };
+
+  
 }
 
 const styles = StyleSheet.create({
