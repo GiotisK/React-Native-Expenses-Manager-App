@@ -8,10 +8,4 @@ A sketchy Android application made within some weeks using JavaScript, React Nat
 * Table view for all entries by month.  
 
 # Screenshots  
-![Screenshot](screenshot1.PNG)
-![Screenshot](screenshot2.PNG)  
-![Screenshot](screenshot3.PNG)
-![Screenshot](screenshot4.PNG)  
-
-
-
+<img src="./screenshot1.PNG" width="250" height="500">  <img src="./screenshot2.PNG" width="250" height="500">  <img src="./screenshot3.PNG" width="250" height="500">  <img src="./screenshot4.PNG" width="250" height="500">
