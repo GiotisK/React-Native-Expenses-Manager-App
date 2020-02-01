@@ -44,10 +44,10 @@ const outcomeColumns =[
 
 let incomeArr = []
 let outcomeArr = []
-let rightTextSize 
-let leftTextSize
-let rightOpacity
-let leftOpacity
+let rightTextSize = 16
+let leftTextSize = 18
+let rightOpacity = 0.7
+let leftOpacity = 1
 let month
 let year
 let allMonthsIncome = 0
