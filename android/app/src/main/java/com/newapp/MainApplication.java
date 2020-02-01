@@ -3,6 +3,7 @@ package com.newapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfingerprint.FingerprintAuthPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.horcrux.svg.SvgPackage;
 import com.rnfs.RNFSPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FingerprintAuthPackage(),
             new RNScreensPackage(),
             new SvgPackage(),
             new RNFSPackage(),

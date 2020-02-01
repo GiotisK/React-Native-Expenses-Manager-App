@@ -1,0 +1,1 @@
+remember to rename the styles.xml file to "NewApp" else wont compile properly during development

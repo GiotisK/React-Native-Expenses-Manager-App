@@ -1,14 +1,18 @@
 import React from 'react';
+import { BackHandler, ToastAndroid, StatusBar, View, AppState, Dimensions, Text } from 'react-native'
 import Icon from 'react-native-ionicons';
-import { CalendarList, Calendar } from 'react-native-calendars';
+import { CalendarList } from 'react-native-calendars';
 import AsyncStorage from '@react-native-community/async-storage';
+import TouchID from 'react-native-touch-id';
+import IconButton from './IconButton';
 
 class CalendarScreen extends React.Component {
   constructor(props) {
     super(props)   
     this.state = {
       //markedDays: {'2019-06-30': {dots: [vacation,workout], selected: true, selectedColor: '#3949ab'}}
-      markedDays: {'2011-04-30':{dots:[{},{}]}}
+      markedDays: {'2011-04-30':{dots:[{},{}]}},
+      appState: AppState.currentState,
     }
     /*trick to 
      *put dots on backpress
@@ -22,8 +26,64 @@ class CalendarScreen extends React.Component {
      */
   componentWillUnmount() {
     this.reRenderMarks;
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+  
+  componentWillMount() {
+    this.authenticate()
   }
 
+  componentDidMount() {
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      this.authenticate()
+    }
+    this.setState({appState: nextAppState});
+  }
+
+  authenticate() {
+    const fingerprintModal = {
+        title: 'Authentication Required', 
+        imageColor: '#e00606', 
+        imageErrorColor: '#ff0000', 
+        sensorDescription: 'Touch sensor to get access', 
+        sensorErrorDescription: 'Failed', 
+        cancelText: '',
+        unifiedErrors: true, 
+        passcodeFallback: true
+    }
+
+    TouchID.authenticate('', fingerprintModal)
+    .then(success => {
+        ToastAndroid.show('Fingerprint Authenticated', ToastAndroid.SHORT);
+    })
+    .catch(error => {
+        this.handleUnlockError(error.code)       
+    });
+  }
+
+    handleUnlockError = (errorMsg) => {
+     
+        switch (errorMsg){
+            case 'NOT_ENROLLED':
+            case 'NOT_AVAILABLE':
+            case 'NOT_SUPPORTED':
+                break;
+            case 'USER_CANCELED':
+                console.log("user cancelled")
+                BackHandler.exitApp()
+                break; 
+            case 'AUTHENTICATION_FAILED':
+                    //console.log('authentication failed')
+                    break;
+        }
+    }
  
   getMarkedDaysFromAsyncStorage = async()=>{
     try{
@@ -57,39 +117,58 @@ class CalendarScreen extends React.Component {
 
   render() {  
     const {navigate} = this.props.navigation;
-    return (   
-      <CalendarList
+    return (
+      <View>
+        <StatusBar backgroundColor = {'white'} barStyle = 'dark-content' />
+        <View style = {{ flexDirection:'row', justifyContent: 'flex-end'}}>
+            <IconButton
+                name = 'settings'
+                color = 'gray'
+                size = {35}
+                style = {{paddingTop: '2%', paddingRight: '5%', paddingLeft: '5%', paddingBottom: '1%'}}
+            />
+        </View>
+       
+        <CalendarList
+            
+            onDayPress={(day) => {navigate('Second',{day: day})}}
+            markingType={'multi-dot'}
+            markedDates={this.state.markedDays}
 
-        onDayPress={(day) => {navigate('Second',{day: day})}}
-        markingType={'multi-dot'}
-        markedDates={this.state.markedDays}
-
-        minDate={'2019-01-01'} 
-        horizontal={true}
-        pagingEnabled={true}
-        hideArrows={false}
-        firstDay={1}
-        hideExtraDays={true}
-        markingType={'multi-dot'}
-        theme={{ 
-          arrowColor: 'gray',
-          dayTextColor: 'gray',
-          textDayFontSize: 20,
-          textSectionTitleColor: '#3949ab',
-          todayTextColor: '#3949ab',
-          'stylesheet.calendar.header': {
-            monthText:{
-              paddingTop:40,
-              paddingBottom:20,
-              fontSize: 25,
-              color:'#3949ab'
-            },
-            arrow: {
-              paddingTop:30
-            },
-          }
-        }}
-      />
+            minDate={'2019-01-01'} 
+            horizontal={true}
+            pagingEnabled={true}
+            hideArrows={false}
+            firstDay={1}
+            hideExtraDays={true}
+            markingType={'multi-dot'}
+            style = {{height: Dimensions.get('window').height}}
+            theme={{ 
+                arrowColor: 'gray',
+                dayTextColor: 'gray',
+                textDayFontSize: 20,
+                textSectionTitleColor: '#3949ab',
+                todayTextColor: '#3949ab',
+                'stylesheet.day.basic':{
+                    'base':{
+                      width:30,
+                      height:200
+                    }
+                },
+                'stylesheet.calendar.header': {
+                    monthText:{
+                        //paddingTop:40,
+                        paddingBottom:20,
+                        fontSize: 25,
+                        color:'#3949ab'
+                    },
+                    arrow: {
+                        paddingTop:30
+                    },
+                }
+            }}
+        />
+      </View>
     );
   }
 }
