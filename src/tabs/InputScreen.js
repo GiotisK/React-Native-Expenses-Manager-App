@@ -12,25 +12,25 @@ import IconButton from './IconButton'
 let dateString; //we need to pass it to the camera screen
 let month 
 let year 
-let day 
+let day
 let titleString 
 
 let photoForDelete = ''
 
 
 const months={
-  1:"Jan.",
-  2:"Febr.",
-  3:"March",
-  4:"April",
-  5:"May",
-  6:"June",
-  7:"July",
-  8:"Aug.",
-  9:"Sep.",
-  10:"Oct.",
-  11:"Nov.",
-  12:"Dec.",
+    1:"Jan.",
+    2:"Febr.",
+    3:"March",
+    4:"April",
+    5:"May",
+    6:"June",
+    7:"July",
+    8:"Aug.",
+    9:"Sep.",
+    10:"Oct.",
+    11:"Nov.",
+    12:"Dec.",
 }
 global.months=months
 
@@ -41,15 +41,15 @@ class InputScreen extends React.Component {
   
  
     this.state = { 
-      valueArray: [], 
-      photos: [],
-      numOfPhotos:0,
-      slideshowEnabled:false,
-      description:"ez",
-      amount:'0',income:0,
-      outcome:0,
-      defaultValues: {},
-      modalVisible: false,
+        valueArray: [], 
+        photos: [],
+        numOfPhotos:0,
+        slideshowEnabled:false,
+        description:"ez",
+        amount:'0',income:0,
+        outcome:0,
+        defaultValues: {},
+        modalVisible: false,
     }
     this.index = 0;
   }
@@ -62,12 +62,12 @@ class InputScreen extends React.Component {
     day = dateString.day
     titleString = day+" "+month+" "+year
     return {
-      title: titleString,
-      headerTintColor: "#3949ab",
-      headerStyle: {
-      //backgroundColor: '',
-      },
-      headerTitleStyle:{
+        title: titleString,
+        headerTintColor: "#3949ab",
+        headerStyle: {
+        //backgroundColor: '',
+        },
+        headerTitleStyle:{
         fontWeight: 'normal',
         display: 'flex',
         flex: 1,
@@ -89,15 +89,15 @@ class InputScreen extends React.Component {
     
       if(typeof num!='undefined'){
         //console.log("its ok")
-        this.setState({
-          numOfPhotos: this.state.numOfPhotos+num
-        })
-      }
+            this.setState({
+                numOfPhotos: this.state.numOfPhotos+num
+            })
+        }
       
     })
     this.props.navigation.setParams({ addMoreIn: this._addMoreIn, addMoreOut:this._addMoreOut });
     this.getAsyncStorageRows().then(()=>{
-      this.getDefaultValuesFromAsyncStorage()
+        this.getDefaultValuesFromAsyncStorage()
     })
     this.getIndexValueFromAsyncStorage()
     this.getIncomeOutcomeFromAsyncStorage()
@@ -106,14 +106,14 @@ class InputScreen extends React.Component {
 
   getIncomeOutcomeFromAsyncStorage = async() => {
     try{
-      let value = await AsyncStorage.getItem(year.toString())
-      value = JSON.parse(value)
-      let _income = value[month][day.toString()]['dayIncome']
-      let _outcome = value[month][day.toString()]['dayOutcome']
-      this.setState({
-        income: _income,
-        outcome: _outcome
-      })
+        let value = await AsyncStorage.getItem(year.toString())
+        value = JSON.parse(value)
+        let _income = value[month][day.toString()]['dayIncome']
+        let _outcome = value[month][day.toString()]['dayOutcome']
+        this.setState({
+            income: _income,
+            outcome: _outcome
+        })
     }catch(error){
       //console.log("getIncomeOutcomeFromAsyncStorage: error")
     }
@@ -121,95 +121,91 @@ class InputScreen extends React.Component {
  
   recalculateIncomesOutcomes = async () =>{
     //try{
-      let dayIncome = 0
-      let dayOutcome = 0
-      let dayFood= 0
-      let dayEntertainment= 0
-      let dayShopping= 0
-      let dayBills= 0
-      let dayHealth= 0
-      let dayOther= 0
-     
-      let monthIncome = 0
-      let monthOutcome = 0
-      let monthFood = 0
-      let monthEntertainment = 0
-      let monthShopping = 0
-      let monthBills = 0
-      let monthHealth = 0
-      let monthOther = 0
+    let dayIncome = 0
+    let dayOutcome = 0
+    let dayFood= 0
+    let dayEntertainment= 0
+    let dayShopping= 0
+    let dayBills= 0
+    let dayHealth= 0
+    let dayOther= 0
+    
+    let monthIncome = 0
+    let monthOutcome = 0
+    let monthFood = 0
+    let monthEntertainment = 0
+    let monthShopping = 0
+    let monthBills = 0
+    let monthHealth = 0
+    let monthOther = 0
 
-      let yearIncome = 0
-      let yearOutcome = 0
-      let yearFood = 0
-      let yearEntertainment = 0
-      let yearShopping = 0
-      let yearBills = 0
-      let yearHealth = 0
-      let yearOther = 0
+    let yearIncome = 0
+    let yearOutcome = 0
+    let yearFood = 0
+    let yearEntertainment = 0
+    let yearShopping = 0
+    let yearBills = 0
+    let yearHealth = 0
+    let yearOther = 0
 
-      let value = await AsyncStorage.getItem(year.toString())
-      value = JSON.parse(value)
+    let value = await AsyncStorage.getItem(year.toString())
+    value = JSON.parse(value)
 
-      for(var index in value[month][day.toString()]['data'] ){
+    for(var index in value[month][day.toString()]['data'] ){
         if(value[month][day.toString()]['data'][index].amount!==''){
-          for(var val of this.state.valueArray){
-            let category_ = value[month][day.toString()]['data'][index].category
-            if(val.isIncome && val.index===value[month][day.toString()]['data'][index].index){
-              dayIncome+= parseFloat(value[month][day.toString()]['data'][index].amount)
+            for(var val of this.state.valueArray){
+                let category_ = value[month][day.toString()]['data'][index].category
+                if(val.isIncome && val.index===value[month][day.toString()]['data'][index].index){
+                dayIncome+= parseFloat(value[month][day.toString()]['data'][index].amount)
 
              
 
-            }else if(!val.isIncome && val.index===value[month][day.toString()]['data'][index].index){
-              dayOutcome+= parseFloat(value[month][day.toString()]['data'][index].amount)
+                }else if(!val.isIncome && val.index===value[month][day.toString()]['data'][index].index){
+                    dayOutcome+= parseFloat(value[month][day.toString()]['data'][index].amount)
 
                //category calculations
-              if(category_ == "Other"){
-                dayOther +=  parseFloat(value[month][day.toString()]['data'][index].amount)
-              }else if(category_ == "Food" ){
-                dayFood += parseFloat(value[month][day.toString()]['data'][index].amount)
-              }else if(category_ == "Entertainment"){
-                dayEntertainment += parseFloat(value[month][day.toString()]['data'][index].amount)
-              }else if(category_ == "Shopping"){
-                dayShopping += parseFloat(value[month][day.toString()]['data'][index].amount)
-              }else if(category_ == "Bills"){
-                dayBills += parseFloat(value[month][day.toString()]['data'][index].amount)
-              }else if(category_ == "Health"){
-                dayHealth += parseFloat(value[month][day.toString()]['data'][index].amount)
-              }
+                if(category_ == "Other"){
+                    dayOther +=  parseFloat(value[month][day.toString()]['data'][index].amount)
+                }else if(category_ == "Food" ){
+                    dayFood += parseFloat(value[month][day.toString()]['data'][index].amount)
+                }else if(category_ == "Entertainment"){
+                    dayEntertainment += parseFloat(value[month][day.toString()]['data'][index].amount)
+                }else if(category_ == "Shopping"){
+                    dayShopping += parseFloat(value[month][day.toString()]['data'][index].amount)
+                }else if(category_ == "Bills"){
+                    dayBills += parseFloat(value[month][day.toString()]['data'][index].amount)
+                }else if(category_ == "Health"){
+                    dayHealth += parseFloat(value[month][day.toString()]['data'][index].amount)
+                }
             }
           }   
         }
       }
      
-      value[month][day.toString()]['dayIncome'] = dayIncome
-      value[month][day.toString()]['dayOutcome'] = dayOutcome
-      value[month][day.toString()]['dayFood'] = dayFood
-      value[month][day.toString()]['dayEntertainment'] = dayEntertainment
-      value[month][day.toString()]['dayShopping'] = dayShopping
-      value[month][day.toString()]['dayBills'] = dayBills
-      value[month][day.toString()]['dayHealth'] = dayHealth
-      value[month][day.toString()]['dayOther'] = dayOther
+    value[month][day.toString()]['dayIncome'] = dayIncome
+    value[month][day.toString()]['dayOutcome'] = dayOutcome
+    value[month][day.toString()]['dayFood'] = dayFood
+    value[month][day.toString()]['dayEntertainment'] = dayEntertainment
+    value[month][day.toString()]['dayShopping'] = dayShopping
+    value[month][day.toString()]['dayBills'] = dayBills
+    value[month][day.toString()]['dayHealth'] = dayHealth
+    value[month][day.toString()]['dayOther'] = dayOther
       
 
-      //for(var _month in value){
-        //if(_month!='yearIncome' && _month!='yearOutcome'){
-          for(var day_ in value[month]){
+        for(var day_ in value[month]){
             if(day_!='monthIncome' && day_!='monthOutcome' && day_!="monthFood" && day_!="monthEntertainment" 
             && day_!="monthShopping" && day_!="monthBills" && day_!="monthHealth" && day_!="monthOther"){
 
-              monthIncome += value[month][day_]['dayIncome']
-              monthOutcome += value[month][day_]['dayOutcome']
-              monthFood += value[month][day_]['dayFood']
-              monthEntertainment += value[month][day_]['dayEntertainment']
-              monthShopping += value[month][day_]['dayShopping']
-              monthBills += value[month][day_]['dayBills']
-              monthHealth += value[month][day_]['dayHealth']
-              monthOther += value[month][day_]['dayOther']
-            }
-          }
-        //}  
-      //}
+                monthIncome += value[month][day_]['dayIncome']
+                monthOutcome += value[month][day_]['dayOutcome']
+                monthFood += value[month][day_]['dayFood']
+                monthEntertainment += value[month][day_]['dayEntertainment']
+                monthShopping += value[month][day_]['dayShopping']
+                monthBills += value[month][day_]['dayBills']
+                monthHealth += value[month][day_]['dayHealth']
+                monthOther += value[month][day_]['dayOther']
+        }
+    }
 
       value[month]['monthIncome'] = monthIncome
       value[month]['monthOutcome'] = monthOutcome
@@ -221,35 +217,30 @@ class InputScreen extends React.Component {
       value[month]['monthOther'] = monthOther
       
 
-      for(var _month in value ){
+    for(var _month in value ){
         if(_month!='yearIncome' && _month!='yearOutcome' && _month!='yearFood' && _month!='yearEntertainment'
         && _month!='yearShopping' && _month!='yearBills' && _month!='yearHealth' && _month!='yearOther'){
-          yearIncome += value[_month]['monthIncome']
-          yearOutcome += value[_month]['monthOutcome']
-          yearFood += value[_month]['monthFood']
-          yearEntertainment += value[_month]['monthEntertainment']
-          yearShopping += value[_month]['monthShopping']
-          yearBills += value[_month]['monthBills']
-          yearHealth += value[_month]['monthHealth']
-          yearOther += value[_month]['monthOther']
+            yearIncome += value[_month]['monthIncome']
+            yearOutcome += value[_month]['monthOutcome']
+            yearFood += value[_month]['monthFood']
+            yearEntertainment += value[_month]['monthEntertainment']
+            yearShopping += value[_month]['monthShopping']
+            yearBills += value[_month]['monthBills']
+            yearHealth += value[_month]['monthHealth']
+            yearOther += value[_month]['monthOther']
           
         }
-      }
-      value['yearIncome'] = yearIncome
-      value['yearOutcome'] = yearOutcome
-      value['yearFood'] = yearFood
-      value['yearEntertainment'] = yearEntertainment
-      value['yearShopping'] = yearShopping
-      value['yearBills'] = yearBills
-      value['yearHealth'] = yearHealth
-      value['yearOther'] = yearOther
+    }
+    value['yearIncome'] = yearIncome
+    value['yearOutcome'] = yearOutcome
+    value['yearFood'] = yearFood
+    value['yearEntertainment'] = yearEntertainment
+    value['yearShopping'] = yearShopping
+    value['yearBills'] = yearBills
+    value['yearHealth'] = yearHealth
+    value['yearOther'] = yearOther
 
-      await AsyncStorage.setItem( year.toString(), JSON.stringify(value));
-      //console.log(dayIncome,dayOutcome)
-
-    //}catch(error){
-      //console.log('recalculateIncomesOutcomes:error')
-    //}
+    await AsyncStorage.setItem( year.toString(), JSON.stringify(value));
   }
 
   pushIncomeToAsyncStorage = async(amount)=>{
@@ -947,32 +938,32 @@ class InputScreen extends React.Component {
 
 
 styles ={
-  container:{
-      flex: 1,
-      flexDirection:'column',
+    container:{
+        flex: 1,
+        flexDirection:'column',
   },
-  bottomTextsContainer:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth:0.6,
-    borderColor:'gray'
-  },
-  bottomButtonsContainer:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth:0.6,
-    borderColor:'gray'
-  },
-  buttonView:{
-    flex: 1,
-  },
-  buttonStyle:{
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor:'red'
-  }
+    bottomTextsContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth:0.6,
+        borderColor:'gray'
+    },
+    bottomButtonsContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth:0.6,
+        borderColor:'gray'
+    },
+    buttonView:{
+        flex: 1,
+    },
+    buttonStyle:{
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor:'red'
+    }
 }
 
 
