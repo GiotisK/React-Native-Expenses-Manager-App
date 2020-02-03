@@ -673,13 +673,13 @@ class InputScreen extends React.Component {
    
   }
 
-  getTextStyle = (index) =>{//category-> transparent, all else pure white
+/*   getTextStyle = (index) =>{//category-> transparent, all else pure white
     if(this.state.defaultValues[index]['category']===""){
-     return {height: 50, width: 100, color:'rgba(255,255,255, 0.5)'} 
+     return {height: 50, width: 120, color:'white'} 
     }else{
-      return {height: 50, width: 100, color:'white'} 
+      return {height: 50, width: 120, color:'white'} 
     }
-  }
+  } */
 
   deletePhoto(){
     var RNFS = require('react-native-fs');
@@ -737,10 +737,10 @@ class InputScreen extends React.Component {
     const {navigate} = this.props.navigation;
     let newArray = this.state.valueArray.map(( item, key ) =>
     {
-      if(item.isIncome===true){
+      if(item.isIncome === true){
         return(
           <InputComponent
-            key={item.index} 
+            key = {item.index} 
           /*   onSubmitEditingDescription={()=>{console.log(this.state.description)}}
             onSubmitEditingAmount={()=>{console.log(this.state.amount)}} */
 
@@ -784,7 +784,7 @@ class InputScreen extends React.Component {
             amountValue= {this.state.defaultValues[item.index]['amount'].toString()==='0' ? '' : this.state.defaultValues[item.index]['amount'].toString()}
             descriptionValue={this.state.defaultValues[item.index]['description']}
 
-            pickerStyle = {this.getTextStyle(item.index)}
+            //pickerStyle = {this.getTextStyle(item.index)}
             selectedValue = {this.state.defaultValues[item.index]['category']}
             onValueChange = {(itemValue, itemIndex)=>{
               let tempDefaultValues=[];
@@ -847,7 +847,7 @@ class InputScreen extends React.Component {
             amountValue= {this.state.defaultValues[item.index]['amount'].toString()==='0' ? '' : this.state.defaultValues[item.index]['amount'].toString()}
             descriptionValue={this.state.defaultValues[item.index]['description']}
 
-            pickerStyle = {this.getTextStyle(item.index)}
+            //pickerStyle = {this.getTextStyle(item.index)}
             selectedValue = {this.state.defaultValues[item.index]['category']}
             onValueChange = {(itemValue, itemIndex)=>{
               let tempDefaultValues=[];

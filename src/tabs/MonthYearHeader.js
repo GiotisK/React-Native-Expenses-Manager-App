@@ -6,13 +6,7 @@ import YearPicker from './YearPicker'
 class MonthYearHeader extends React.Component {
     render() {
         return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    borderBottomWidth: 0.5,
-                }}
-            >
+            <View style={styles.headerStyle}>
                 <MonthPicker
                     selectedValue={this.props.monthSelectedValue}
                     onValueChange={this.props.monthOnValueChange}
@@ -24,6 +18,14 @@ class MonthYearHeader extends React.Component {
             </View>
         )
     }
+}
+
+const styles = {
+    headerStyle: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        borderBottomWidth: 0.5,
+    },
 }
 
 export default MonthYearHeader

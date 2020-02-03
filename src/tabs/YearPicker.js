@@ -1,6 +1,9 @@
 import React from 'react'
 import { View, Picker } from 'react-native'
 
+const yearValues = [2019, 2020, 2021, 2022, 2023, 2024, 2025]
+let key = 0
+
 class YearPicker extends React.Component {
     render() {
         return (
@@ -8,25 +11,31 @@ class YearPicker extends React.Component {
                 <Picker
                     selectedValue={this.props.selectedValue}
                     mode="dropdown"
-                    style={{
-                        height: 50,
-                        width: 120,
-                        marginTop: 3,
-                        color: '#3949ab',
-                    }}
+                    style={styles.pickerStyle}
                     onValueChange={this.props.onValueChange}
                 >
-                    <Picker.Item label="2019" value={2019} />
-                    <Picker.Item label="2020" value={2020} />
-                    <Picker.Item label="2021" value={2021} />
-                    <Picker.Item label="2022" value={2022} />
-                    <Picker.Item label="2023" value={2023} />
-                    <Picker.Item label="2024" value={2024} />
-                    <Picker.Item label="2025" value={2025} />
+                    {yearValues.map(yearValue => {
+                        return (
+                            <Picker.Item
+                                key={key++}
+                                label={yearValue.toString()}
+                                value={yearValue}
+                            />
+                        )
+                    })}
                 </Picker>
             </View>
         )
     }
+}
+
+const styles = {
+    pickerStyle: {
+        height: 50,
+        width: 120,
+        marginTop: 3,
+        color: '#3949ab',
+    },
 }
 
 export default YearPicker

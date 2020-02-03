@@ -23,7 +23,7 @@ class CameraScreen extends React.Component {
         this.state = {
             flag: true,
             flashMode_: RNCamera.Constants.FlashMode.on,
-            flashName: 'flash',
+            flashIconName: 'flash',
         }
     }
 
@@ -36,9 +36,7 @@ class CameraScreen extends React.Component {
         return {
             title: titleString,
             headerTintColor: '#3949ab',
-            headerStyle: {
-                //backgroundColor: '',
-            },
+
             headerTitleStyle: {
                 fontWeight: 'normal',
                 display: 'flex',
@@ -126,7 +124,7 @@ class CameraScreen extends React.Component {
                 >
                     <Icon
                         size={40}
-                        name={this.state.flashName}
+                        name={this.state.flashIconName}
                         color="rgba(52, 52, 52, 0)"
                     />
                     <IconButton
@@ -142,19 +140,19 @@ class CameraScreen extends React.Component {
                                 this.setState({
                                     flashMode_:
                                         RNCamera.Constants.FlashMode.off,
-                                    flashName: 'flash-off',
+                                    flashIconName: 'flash-off',
                                     flag: !this.state.flag,
                                 })
                             } else {
                                 this.setState({
                                     flashMode_: RNCamera.Constants.FlashMode.on,
-                                    flashName: 'flash',
+                                    flashIconName: 'flash',
                                     flag: !this.state.flag,
                                 })
                             }
                         }}
                         style={{}}
-                        name={this.state.flashName}
+                        name={this.state.flashIconName}
                         size={40}
                         color="white"
                     />
@@ -162,30 +160,6 @@ class CameraScreen extends React.Component {
             </View>
         )
     }
-
-    /* requestCameraPermission = async function () {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: 'Cool Photo App Camera Permission',
-          message:
-            'Cool Photo App needs access to your camera ' +
-            'so you can take awesome pictures.',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the camera');
-      } else {
-        console.log('Camera permission denied');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  } */
 
     takePicture = async function() {
         numOfPhotos += 1
@@ -218,31 +192,6 @@ class CameraScreen extends React.Component {
             } catch (err) {
                 console.warn(err)
             }
-
-            /*
-      ==TEST READING PHOTOS==
-      const photoz=CameraRoll.getPhotos({
-          first:15
-      })
-      console.log("photos")
-      console.log(photoz)
-      /*
-      ==TEST PARSING==
-      let pars = data.uri.split("/")
-      console.log(pars)
-      console.log(pars.length)
-      pars[pars.length-1]="photozzz.jpg"
-      let i
-      let newuri=""
-      for (i = 0; i < pars.length; i++) {
-        if(i === pars.length-1){
-            newuri = newuri+pars[i]
-        }else{
-            newuri = newuri+pars[i]+'/'
-        }
-        
-      }
-      console.log(newuri)*/
         }
     }
 }

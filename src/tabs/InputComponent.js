@@ -2,43 +2,46 @@ import React from 'react'
 import { TextInput, View, Picker } from 'react-native'
 import IconButton from './IconButton'
 
+const outcomeCategoryLabelsAndValues = [
+    { label: 'Category..', value: 'Other' },
+    { label: 'Food', value: 'Food' },
+    { label: 'Bills', value: 'Bills' },
+    { label: 'Health', value: 'Health' },
+    { label: 'Entertainment', value: 'Entertainment' },
+    { label: 'Shopping', value: 'Shopping' },
+    { label: 'Other', value: 'Other' },
+]
+let key = 0
 class InputComponent extends React.Component {
     render() {
-        const picker = (
+        const outcomeCategoryPicker = (
             <Picker
                 selectedValue={this.props.selectedValue}
                 mode="dropdown"
                 placeholderTextColor="white"
-                style={this.props.pickerStyle}
+                style={styles.pickerStyle}
                 onValueChange={this.props.onValueChange}
             >
-                <Picker.Item label="Category.." value="Other" />
-                <Picker.Item label="Food" value="Food" />
-                <Picker.Item label="Bills" value="Bills" />
-                <Picker.Item label="Health" value="Health" />
-                <Picker.Item label="Entertainment" value="Entertainment" />
-                <Picker.Item label="Shopping" value="Shopping" />
-                <Picker.Item label="Other" value="Other" />
+                {outcomeCategoryLabelsAndValues.map(categoryObject => {
+                    return (
+                        <Picker.Item
+                            key={key++}
+                            label={categoryObject.label}
+                            value={categoryObject.value}
+                        />
+                    )
+                })}
             </Picker>
         )
 
         return (
             <View
-                style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    margin: 3,
-                    borderRadius: 5,
-                    backgroundColor: this.props.color,
-                }}
+                style={[
+                    styles.outerContainer,
+                    { backgroundColor: this.props.color },
+                ]}
             >
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start',
-                    }}
-                >
+                <View style={styles.textInputsContainer}>
                     <TextInput
                         onSubmitEditing={this.props.onSubmitEditingDescription}
                         onChangeText={this.props.onChangeTextDescription}
@@ -62,11 +65,11 @@ class InputComponent extends React.Component {
                         maxLength={8}
                         autoCapitalize="words" //CURRENTLY BUGGED. ONLY WITH 'WORDS' PUNCTUATION IS ENABLED ON ANDROID
                     />
-                    {this.props.isIncome ? null : picker}
+                    {this.props.isIncome ? null : outcomeCategoryPicker}
                 </View>
                 <IconButton
                     onPress={this.props.onPressRemove}
-                    style={styless.buttonStyle}
+                    style={styles.buttonStyle}
                     name="close-circle-outline"
                     size={25}
                     color="white"
@@ -76,7 +79,23 @@ class InputComponent extends React.Component {
     }
 }
 
-styless = {
+const styles = {
+    pickerStyle: {
+        height: 50,
+        width: 120,
+        color: 'white',
+    },
+    outerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        margin: 3,
+        borderRadius: 5,
+    },
+    textInputsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+    },
     buttonStyle: {
         marginTop: 13,
         marginRight: 5,
