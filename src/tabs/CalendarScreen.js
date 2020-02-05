@@ -17,30 +17,26 @@ class CalendarScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            //markedDays: {'2019-06-30': {dots: [vacation,workout], selected: true, selectedColor: '#3949ab'}}
             markedDays: { '2011-04-30': { dots: [{}, {}] } },
             appState: AppState.currentState,
         }
-        /*trick to
-         *put dots on backpress
-         */
+
         this.reRenderMarks = this.props.navigation.addListener(
+            //trick to put dots on backpress
             'willFocus',
             () => {
                 this.getMarkedDaysFromAsyncStorage()
             }
         )
     }
-    /*trick to
-     *put dots on backpress
-     */
+
     componentWillUnmount() {
         this.reRenderMarks
         AppState.removeEventListener('change', this._handleAppStateChange)
     }
 
     componentWillMount() {
-        this.authenticate()
+        this.authenticateWithFingerprint()
     }
 
     componentDidMount() {
@@ -52,12 +48,12 @@ class CalendarScreen extends React.Component {
             this.state.appState.match(/inactive|background/) &&
             nextAppState === 'active'
         ) {
-            this.authenticate()
+            this.authenticateWithFingerprint()
         }
         this.setState({ appState: nextAppState })
     }
 
-    authenticate() {
+    authenticateWithFingerprint() {
         const fingerprintModal = {
             title: 'Authentication Required',
             imageColor: '#e00606',
@@ -88,7 +84,6 @@ class CalendarScreen extends React.Component {
             case 'NOT_SUPPORTED':
                 break
             case 'USER_CANCELED':
-                console.log('user cancelled')
                 BackHandler.exitApp()
                 break
             case 'AUTHENTICATION_FAILED':
@@ -99,19 +94,20 @@ class CalendarScreen extends React.Component {
 
     getMarkedDaysFromAsyncStorage = async () => {
         try {
-            let value = await AsyncStorage.getItem('markedDays')
-            if (value !== null) {
-                value = JSON.parse(value)
+            let markedDaysJSONString = await AsyncStorage.getItem('markedDays')
+            if (markedDaysJSONString !== null) {
+                markedDaysJSONString = JSON.parse(markedDaysJSONString)
                 this.setState({
-                    markedDays: value,
+                    markedDays: markedDaysJSONString,
                 })
             }
         } catch (error) {
-            //console.log("getMarkedDays:  error")
+            //console.log('getMarkedDays:  error')
         }
     }
 
-    onDaySelect = day => {
+    /*  onDaySelect = day => {
+        console.log('ondayselectttttttt')
         const selectedDay = day.dateString
         let marked = true
         if (this.state.markedDays[selectedDay]) {
@@ -122,10 +118,9 @@ class CalendarScreen extends React.Component {
             ...this.state.markedDays,
             ...{ [selectedDay]: { marked: marked } },
         }
-        console.debug('sdadsdsa')
         // Triggers component to render again, picking up the new state
         this.setState({ markedDays: updatedMarkedDays })
-    }
+    } */
 
     render() {
         const { navigate } = this.props.navigation
@@ -139,18 +134,13 @@ class CalendarScreen extends React.Component {
                         name="settings"
                         color="gray"
                         size={35}
-                        style={{
-                            paddingTop: '2%',
-                            paddingRight: '5%',
-                            paddingLeft: '5%',
-                            paddingBottom: '1%',
-                        }}
+                        style={styles.SettingsButtonStyle}
                     />
                 </View>
 
                 <CalendarList
-                    onDayPress={day => {
-                        navigate('Second', { day: day })
+                    onDayPress={dateJSON => {
+                        navigate('InputScreen', { dateJSON: dateJSON })
                     }}
                     markingType={'multi-dot'}
                     markedDates={this.state.markedDays}
@@ -161,31 +151,8 @@ class CalendarScreen extends React.Component {
                     firstDay={1}
                     hideExtraDays={true}
                     markingType={'multi-dot'}
-                    style={{ height: Dimensions.get('window').height }}
-                    theme={{
-                        arrowColor: 'gray',
-                        dayTextColor: 'gray',
-                        textDayFontSize: 20,
-                        textSectionTitleColor: '#3949ab',
-                        todayTextColor: '#3949ab',
-                        'stylesheet.day.basic': {
-                            base: {
-                                width: 30,
-                                height: 200,
-                            },
-                        },
-                        'stylesheet.calendar.header': {
-                            monthText: {
-                                //paddingTop:40,
-                                paddingBottom: 20,
-                                fontSize: 25,
-                                color: '#3949ab',
-                            },
-                            arrow: {
-                                paddingTop: 30,
-                            },
-                        },
-                    }}
+                    style={styles.calendarListStyles}
+                    theme={styles.calendarListTheme}
                 />
             </View>
         )
@@ -201,6 +168,42 @@ CalendarScreen.navigationOptions = {
             inactiveTintColor="black"
         />
     ),
+}
+
+const styles = {
+    SettingsButtonStyle: {
+        paddingTop: '2%',
+        paddingRight: '5%',
+        paddingLeft: '5%',
+        paddingBottom: '1%',
+    },
+    calendarListStyles: {
+        height: Dimensions.get('window').height,
+    },
+    calendarListTheme: {
+        arrowColor: 'gray',
+        dayTextColor: 'gray',
+        textDayFontSize: 20,
+        textSectionTitleColor: '#3949ab',
+        todayTextColor: '#3949ab',
+        'stylesheet.day.basic': {
+            base: {
+                width: 30,
+                height: 200,
+            },
+        },
+        'stylesheet.calendar.header': {
+            monthText: {
+                //paddingTop:40,
+                paddingBottom: 20,
+                fontSize: 25,
+                color: '#3949ab',
+            },
+            arrow: {
+                paddingTop: 30,
+            },
+        },
+    },
 }
 
 export default CalendarScreen

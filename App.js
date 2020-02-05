@@ -32,8 +32,8 @@ const TabNavigator = createBottomTabNavigator(
 const StackNavigator = createStackNavigator(
     {
         Main: { screen: TabNavigator },
-        Second: { screen: InputScreen },
-        Third: { screen: CameraScreen },
+        InputScreen: { screen: InputScreen },
+        CameraScreen: { screen: CameraScreen },
     },
     {
         headerLayoutPreset: 'center', //forces the header to be on the center

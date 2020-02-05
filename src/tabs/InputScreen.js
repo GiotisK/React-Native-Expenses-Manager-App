@@ -9,14 +9,12 @@ import Slideshow from 'react-native-slideshow';
 import IconButton from './IconButton'
 
 
-let dateString; //we need to pass it to the camera screen
+let dateJSON; //we need to pass it to the camera screen
 let month 
 let year 
 let day
-let titleString 
 
 let photoForDelete = ''
-
 
 const months={
     1:"Jan.",
@@ -56,13 +54,13 @@ class InputScreen extends React.Component {
   
  
   static navigationOptions = ({ navigation }) => {
-    dateString = navigation.getParam('day')
-    month = months[dateString.month]
-    year = dateString.year
-    day = dateString.day
-    titleString = day+" "+month+" "+year
+    dateJSON = navigation.getParam('dateJSON')
+    month = months[dateJSON.month]
+    year = dateJSON.year
+    day = dateJSON.day
+
     return {
-        title: titleString,
+        title: day+" "+month+" "+year,
         headerTintColor: "#3949ab",
         headerStyle: {
         //backgroundColor: '',
@@ -85,7 +83,7 @@ class InputScreen extends React.Component {
   componentDidMount() {
     //update photos counter every time u take a picture
     this._navListener = this.props.navigation.addListener('didFocus', () => {
-      let num = this.props.navigation.getParam('num')
+      let num = this.props.navigation.getParam('numOfPhotos')
     
       if(typeof num!='undefined'){
         //console.log("its ok")
@@ -373,13 +371,13 @@ class InputScreen extends React.Component {
     }
 
     if(foundIncome && foundOutCome){
-      markedDays[dateString.dateString]={dots:[{color:'green'},{color:'red'}]}
+      markedDays[dateJSON.dateJSON]={dots:[{color:'green'},{color:'red'}]}
     }else if(!foundIncome && foundOutCome){
-      markedDays[dateString.dateString]={dots:[{color:'red'}]}
+      markedDays[dateJSON.dateString]={dots:[{color:'red'}]}
     }else if(foundIncome && !foundOutCome){
-      markedDays[dateString.dateString]={dots:[{color:'green'}]}
+      markedDays[dateJSON.dateString]={dots:[{color:'green'}]}
     }else{/*if both false*/
-      delete markedDays[dateString.dateString]
+      delete markedDays[dateJSON.dateString]
       //markedDays[dateString.dateString]={dots:[{}]}
     }
     await AsyncStorage.setItem('markedDays', JSON.stringify(markedDays));
@@ -917,7 +915,7 @@ class InputScreen extends React.Component {
           {/*<IconButton size={50} name = "camera" style={styles.buttonStyle} />
           <IconButton size={50} name = "md-photos" />*/}
           <View style={{flex:1,borderRightWidth:0.4,borderRightColor:'gray'}}>
-            <TouchableOpacity onPress={()=>{navigate('Third',{day: dateString})}}  >
+            <TouchableOpacity onPress={()=>{navigate('CameraScreen',{dateJSON: dateJSON})}}  >
               <Icon  name='camera' style={{alignSelf:'center'}}/>
             </TouchableOpacity>
           </View>

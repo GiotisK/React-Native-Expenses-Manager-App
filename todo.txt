@@ -1,0 +1,6 @@
+todo:
+
+1) fix flash size
+2) refactor InputScreen, IncomeTab, Graphsscreen
+3) Add settings with import export, enable/disable fingerprint, select currency
+4) maybe add a text when no income, outcome entries exist in a day

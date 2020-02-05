@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Picker } from 'react-native'
 
-const yearValues = [2019, 2020, 2021, 2022, 2023, 2024, 2025]
+const yearNumbers = [2019, 2020, 2021, 2022, 2023, 2024, 2025]
 let key = 0
 
 class YearPicker extends React.Component {
@@ -14,12 +14,12 @@ class YearPicker extends React.Component {
                     style={styles.pickerStyle}
                     onValueChange={this.props.onValueChange}
                 >
-                    {yearValues.map(yearValue => {
+                    {yearNumbers.map(yearNumber => {
                         return (
                             <Picker.Item
                                 key={key++}
-                                label={yearValue.toString()}
-                                value={yearValue}
+                                label={yearNumber.toString()}
+                                value={yearNumber}
                             />
                         )
                     })}
